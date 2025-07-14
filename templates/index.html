@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>📰 News Dashboard</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 40px; }
+        h1 { color: #333; }
+        .card { border-bottom: 1px solid #ccc; margin-bottom: 20px; padding-bottom: 10px; }
+        a { text-decoration: none; color: #007BFF; font-weight: bold; }
+        small { color: #777; }
+    </style>
+</head>
+<body>
+    <h1>📰 Latest Headlines</h1>
+    {% for title, url, fetched_at in headlines %}
+        <div class="card">
+            <a href="{{ url }}" target="_blank">{{ title }}</a><br>
+            <small>⏱ {{ fetched_at }}</small>
+        </div>
+    {% else %}
+        <p>No headlines found.</p>
+    {% endfor %}
+</body>
+</html>
