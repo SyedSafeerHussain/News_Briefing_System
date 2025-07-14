@@ -42,9 +42,9 @@ def insert_headlines(items: List[Dict[str,str]])->int:
         except sqlite3.IntegrityError:
             # URL already exists, skip
             continue
-        conn.commit()
-        conn.close()
-        return new_count
+    conn.commit()
+    conn.close()
+    return new_count
 if __name__=="__main__":
     init_db()
     sample=[
