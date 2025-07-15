@@ -2,6 +2,7 @@ import sqlite3
 from sqlite3 import Connection
 from datetime import datetime
 from typing import List,Dict
+import os
 DB_PATH="data/news.db"
 
 def get_connection()->Connection:
@@ -9,17 +10,21 @@ def get_connection()->Connection:
     conn=sqlite3.connect(DB_PATH)
     return conn
 def init_db():
+    DB_PATH = os.path.join(os.path.dirname(__file__), '..', 'data', 'news.db')
+    conn = sqlite3.connect(DB_PATH)
     """Creates the headlines table if it doesn’t already exist."""
-    conn=get_connection()
     cursor=conn.cursor()
-    cursor.execute("""
+    cursor.execute('''
         CREATE TABLE IF NOT EXISTS headlines (
-            id          INTEGER PRIMARY KEY AUTOINCREMENT,
-            title       TEXT NOT NULL,
-            url         TEXT NOT NULL UNIQUE,
-            fetched_at  TEXT NOT NULL
-        );
-    """)
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            title TEXT,
+            summary TEXT,
+            source TEXT,
+            url TEXT,
+            published_at TEXT,
+            fetched_at TEXT
+        )
+    ''')
     conn.commit()
     conn.close()
 def insert_headlines(items: List[Dict[str,str]])->int:
@@ -35,8 +40,15 @@ def insert_headlines(items: List[Dict[str,str]])->int:
     for item in items:
         try:
             cursor.execute(
-                "INSERT INTO headlines (title, url, fetched_at) VALUES (?, ?, ?)",
-                (item["title"],item["url"],now)
+                "INSERT INTO headlines (title, url, source, published_at, fetched_at) VALUES (?,?,?,?,?)",
+                (
+                    item["title"],
+                    item["url"],
+                    item.get("source", "Unknown"),
+                    item.get("publishedAt", "Unknown"),
+                    now
+                )
+                
             )
             new_count+=1
         except sqlite3.IntegrityError:
