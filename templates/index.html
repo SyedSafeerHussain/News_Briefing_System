@@ -1,24 +1,54 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>📰 News Dashboard</title>
+    <title>🧠 AI-Powered News Briefing</title>
     <style>
-        body { font-family: Arial, sans-serif; margin: 40px; }
-        h1 { color: #333; }
-        .card { border-bottom: 1px solid #ccc; margin-bottom: 20px; padding-bottom: 10px; }
-        a { text-decoration: none; color: #007BFF; font-weight: bold; }
-        small { color: #777; }
+        body {
+            font-family: Arial, sans-serif;
+            margin: 40px;
+            background-color: #f9f9f9;
+        }
+        .headline {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 25px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+        }
+        .headline h2 {
+            font-size: 20px;
+        }
+        .meta {
+            color: gray;
+            font-size: 14px;
+        }
+        a {
+            text-decoration: none;
+            color: #007BFF;
+        }
     </style>
 </head>
 <body>
-    <h1>📰 Latest Headlines</h1>
-    {% for title, url, fetched_at in headlines %}
-        <div class="card">
-            <a href="{{ url }}" target="_blank">{{ title }}</a><br>
-            <small>⏱ {{ fetched_at }}</small>
+    <h1 style="text-align: center; margin-top: 20px;">🧠 AI-Powered News Briefing</h1>
+
+    {% for item in headlines %}
+        <div class="headline">
+            <h2><a href="{{ item.url }}" target="_blank">{{ item.title }}</a></h2>
+            {% if item.summary %}
+                <p>{{ item.summary }}</p>
+            {% endif %}
+
+            <div class="meta">
+                {% if item.source %}
+                    📡 {{ item.source }}
+                {% endif %}
+                {% if item.published_at %}
+                    | 🕒 {{ item.published_at }}
+                {% endif %}
+                <br>
+                📥 {{ item.fetched_at }}
+            </div>
         </div>
-    {% else %}
-        <p>No headlines found.</p>
     {% endfor %}
 </body>
 </html>
