@@ -1,12 +1,10 @@
-
-
 import sys
 import os
 from datetime import datetime
 
 from fetch_headlines import get_top_headlines
 from db import init_db, insert_headlines
-
+from summarizer import summarize_all
 def main():
     # 1. Initialize database (if not already)
     init_db()
@@ -20,10 +18,14 @@ def main():
     # 3. Insert into DB and count new entries
     new_count=insert_headlines(headlines)
     # 4. Log results
-    timestampt=datetime.utcnow().isoformat()
+    timestamp=datetime.utcnow().isoformat()
     if new_count >0:
-        print(f"[{timestampt}] Inserted {new_count} new headline(s).")
+        print(f"[{timestamp}] Inserted {new_count} new headline(s).")
     else:
-        print(f"[{timestampt}] No new headlines to insert.")
+        print(f"[{timestamp}] No new headlines to insert.")
+
+
+    # 5. Summarize all
+    summarize_all()
 if __name__=="__main__":
     main()
