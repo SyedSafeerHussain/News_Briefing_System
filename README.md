@@ -1,4 +1,5 @@
 ## 🧠 AI -Powered News Briefing & Alert System
+![Live Dashboard](images/image.png)
 
 > Get the world’s top headlines, auto-summarized with AI, stored in a database, and visualized on a sleek dashboard — all in one intelligent pipeline.
 
